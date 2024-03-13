@@ -1,6 +1,5 @@
 import {cryptoAssets, cryptoData} from './data.js';
 
-
 export function fakeFetchCrypto() {
   return new Promise(resolve => {
     setTimeout(() => {

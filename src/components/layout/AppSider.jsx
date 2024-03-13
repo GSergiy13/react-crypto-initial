@@ -2,7 +2,6 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Layout, Card, Statistic, List, Typography, Tag } from "antd";
 import { useContext } from 'react';
 
-
 import {capitalize} from '../../utills.js'
 
 import CryptoContext from '../../context/crypto-context.jsx';
@@ -13,14 +12,12 @@ const siderStyle = {
 
 export default function AppSider () {
   const {assets} = useContext(CryptoContext);
-  console.log(CryptoContext);
 
   return(
     <Layout.Sider width="25%" style={siderStyle}>
       {
         assets.map( (asset) => (          
 
-          // console.log(asset)
         <Card key={asset.id} style={{marginBottom: '1rem'}}>
             <Statistic 
               title={capitalize(asset.id)}
