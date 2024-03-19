@@ -19,7 +19,7 @@ const headerStyle = {
 export default function AppHeader() {
   const {crypto} = useCrypto();
   const [modal, setModal] = useState(false);
-  const [drawer, setDrawer] = useState(true);
+  const [drawer, setDrawer] = useState(false);
   const [coin, setCoin] = useState(null);
   const [select, setSelect] = useState(false);
 
@@ -68,7 +68,7 @@ export default function AppHeader() {
   </Modal>
 
   <Drawer title="Basic Drawer" onClose={() => setDrawer(false)} open={drawer} destroyOnClose>
-    <AddAssetFrom />
+    <AddAssetFrom onClose={() => setDrawer(false)} />
   </Drawer>
 
     <Button onClick={() => setDrawer(true)}>All select</Button>

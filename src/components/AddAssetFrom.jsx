@@ -1,14 +1,16 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useForm } from "antd/es/form/Form";
 
-import { Select, Space, Form, InputNumber, Button, Flex, Typography, Divider, DatePicker } from "antd";
+import { Select, Space, Form, InputNumber, Button, Flex, Typography, Divider, DatePicker, Result } from "antd";
 
 import {useCrypto} from '../context/crypto-context'
 
-export default function AddAssetFrom () {
-  const [coin, setCoin] = useState(null);
+export default function AddAssetFrom ({onClose}) {
   const [form] = useForm();
-  const {crypto} = useCrypto();
+  const {crypto, setNewAssets} = useCrypto();
+  const [resultState, setResultState] = useState(false);
+  const [coin, setCoin] = useState(null);
+  const afterStateDataForm = useRef();
 
   if(!coin) {
     return (
@@ -32,14 +34,51 @@ export default function AddAssetFrom () {
     )
   }
 
-  function onFinish(vlu) {
-    console.log(vlu);
+  if(resultState) {
+    return(
+      <Result
+          status="success"
+          title="New Asset Adden"
+          subTitle={`Added ${afterStateDataForm.current.amount} of ${coin.name} by price ${afterStateDataForm.current.price}`}
+          extra={[
+            <Button key="console" type="primary" onClick={onClose}>close</Button>,
+          ]}
+        />
+    )
   }
+
+  
+
+  function onFinish(vlu) {
+    const newAsset = {
+      id: coin.id,
+      amount: vlu.amount,
+      price: vlu.price,
+      date: vlu.date?.$d ?? new Date()
+    }
+    afterStateDataForm.current = newAsset
+
+    setNewAssets(newAsset)
+
+    setResultState(true)
+  }
+
+  
   function hendelChangeAmount(value) {
+    const price = +form.getFieldValue('price');
+
      form.setFieldsValue({
-      total: `${(value > 0) ? (value * coin.price).toFixed(2) : 'xuy'}$`
+      total: (price * value).toFixed(2)
     })}
   
+    function hendelChangePrice(value) { 
+      const amount = +form.getFieldValue('amount');
+
+      form.setFieldsValue({
+       total: (amount * value).toFixed(2) 
+     })}
+   
+
 
   const validateMessages = {
     required: '${label} is required!',
@@ -63,7 +102,7 @@ export default function AddAssetFrom () {
       maxWidth: '600',
     }}
     initialValues={{
-      price: +coin.price.toFixed(2) + '$'
+      price: +coin.price.toFixed(2)
     }}
     onFinish={onFinish}
     validateMessages={validateMessages}
@@ -102,14 +141,14 @@ export default function AddAssetFrom () {
       label="Price"
       name="price">
 
-      <InputNumber disabled style={{width: '100%'}}  />
+      <InputNumber onChange={hendelChangePrice} style={{width: '100%'}}  />
     </Form.Item>
 
     <Form.Item
       label="Date && Time"
       name="date-time">
 
-      <DatePicker showTime onChange={{}} onOk={{}}  style={{width: '100%'}} />
+      <DatePicker showTime  style={{width: '100%'}} />
     </Form.Item>
 
     <Form.Item
