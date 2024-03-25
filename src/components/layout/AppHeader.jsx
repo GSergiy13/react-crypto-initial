@@ -3,6 +3,8 @@ import { useCrypto } from '../../context/crypto-context';
 import { useEffect, useState } from 'react';
 import CoinInfoModal from '../coinInfoModal';
 import AddAssetFrom from '../AddAssetFrom';
+import AppMenu from './AppMenu';
+
 
 const headerStyle = {
   width: '100%',
@@ -62,6 +64,8 @@ export default function AppHeader() {
       </Space>
     )}
   />
+
+  <AppMenu />
 
   <Modal open={modal} onCancel={() => setModal(false)} footer={null}>
       <CoinInfoModal coin={coin} />
