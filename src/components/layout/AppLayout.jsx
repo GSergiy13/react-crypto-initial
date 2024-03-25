@@ -7,6 +7,8 @@ import AppSider from './AppSider';
 import AppContent from './AppContent';
 
 import CryptoContext from '../../context/crypto-context';
+import { Route, Routes } from 'react-router-dom';
+import AppAbout from './AppAbout';
 
 export default function AppLayout () {
   const { loading } = useContext(CryptoContext);
@@ -17,11 +19,32 @@ export default function AppLayout () {
 
   return (
     <Layout>
-    <AppHeader />    
-      <Layout>
-        <AppSider />
-        <AppContent />
-      </Layout>
+      
+    <AppHeader /> 
+
+ 
+
+    <Routes>
+      <Route path="/" element={
+        <Layout>
+          <AppSider />
+          <AppContent />
+        </Layout>
+      } />
+
+      <Route path="/about" element={<AppAbout />}/>
+
+      <Route path="*" element={'NOT PAGE'}/>
+    </Routes>
+
+      
     </Layout>
   )
 }
+
+
+   {/* <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/stacks" element={<Stacks />} />
+        <Route path="*" element={<div>NOT page</div>} />
+      </Routes> */}

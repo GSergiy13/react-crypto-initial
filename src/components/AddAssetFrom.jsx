@@ -1,9 +1,11 @@
 import { useRef, useState } from "react"
 import { useForm } from "antd/es/form/Form";
 
-import { Select, Space, Form, InputNumber, Button, Flex, Typography, Divider, DatePicker, Result } from "antd";
+import { Select, Space, Form, InputNumber, Button, Divider, DatePicker, Result } from "antd";
 
-import {useCrypto} from '../context/crypto-context'
+import {useCrypto} from '../context/crypto-context';
+import InfoCoin from "./infoCoin";
+
 
 export default function AddAssetFrom ({onClose}) {
   const [form] = useForm();
@@ -109,15 +111,7 @@ export default function AddAssetFrom ({onClose}) {
     form={form}
   >
 
-    <Flex align="center">
-      <img src={coin.icon} alt={coin.name} style={{width: 40, marginRight: 20}} />
-
-      <Typography.Title level={2} style={{margin: 0}}>
-        {
-          coin.name
-        }
-      </Typography.Title>
-    </Flex>
+    <InfoCoin coin={coin} />
 
     <Divider />
 
